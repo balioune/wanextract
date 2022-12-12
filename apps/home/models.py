@@ -69,17 +69,14 @@ class Application(models.Model):
 
 class ApplicationPerInterface(models.Model):
     timestamp = models.DateTimeField()
-    site_name = models.CharField(max_length=20)
     date = models.DateField()
     time = models.TimeField()
     interface = models.ForeignKey(Interface, verbose_name="Interface", on_delete=models.CASCADE, related_name="+")
-    InBurst1 = models.FloatField(default=0.0)
-    InBurst2 = models.FloatField(default=0.0)
-    InBurst3 = models.FloatField(default=0.0)
-    InBurst4 = models.FloatField(default=0.0)
-    Burst3 = models.IntegerField(default=0)
-    Burst4 = models.IntegerField(default=0)
-    applications = models.TextField()
+    TxOctets = models.FloatField(default=0.0)
+    RxOctets = models.FloatField(default=0.0)
+    app_name = models.CharField(max_length=20)
+    router_name = models.CharField(max_length=20)
+    if_name = models.CharField(max_length=20)
     class Meta:
         # unique_together = ('timestamp', 'interface')
         pass
