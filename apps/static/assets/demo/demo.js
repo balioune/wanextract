@@ -514,7 +514,8 @@ demo = {
     gradientStroke.addColorStop(0, 'rgba(119,52,169,0)'); //purple colors
 
     var data = {
-      labels: ['JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
+      //labels: ['JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
+      labels:  ['10.150.70.254', '10.150.80.200', '10.0.1.254', '10.150.36.44', '10.100.25.50', 'qvipfv-prod.airfrance.fr'],
       datasets: [{
         label: "Data",
         fill: true,
@@ -550,7 +551,8 @@ demo = {
     gradientStroke.addColorStop(0, 'rgba(66,134,121,0)'); //green colors
 
     var data = {
-      labels: ['JUL', 'AUG', 'SEP', 'OCT', 'NOV'],
+      //labels: ['JUL', 'AUG', 'SEP', 'OCT', 'NOV'],
+      labels:  ['10.150.70.254', '10.150.80.200', '10.0.1.254', 'qvipfv-prod.airfrance.fr'],
       datasets: [{
         label: "My First dataset",
         fill: true,
@@ -654,7 +656,7 @@ demo = {
         display: false
       },
       data: {
-        labels: ['USA', 'GER', 'AUS', 'UK', 'RO', 'BR'],
+        labels: ['10.150.70.254', '10.150.80.200', '10.0.1.254', '10.150.36.44', '10.100.25.50', 'qvipfv-prod.airfrance.fr'],
         datasets: [{
           label: "Countries",
           fill: true,

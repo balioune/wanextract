@@ -1,13 +1,12 @@
-
+{% load static %}
     <div class="sidebar">
         <!--
           Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red"
-      -->
+        -->
         <div class="sidebar-wrapper">
             <div class="logo">
-                <a href="javascript:void(0)" class="simple-text logo-mini">
-                    CT
-                </a>
+                <img src="{% static 'assets/img/afklm.png' %}" class="rounded-circle shadow-2 img-thumbnail"
+                 alt="">
                 <a href="javascript:void(0)" class="simple-text logo-normal">
                     AFKLM Metrics
                 </a>
@@ -19,22 +18,34 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="{% if 'icons' in segment %} active {% endif %}">
-                    <a href="/icons.html">
+                <li class="{% if 'sites' in segment %} active {% endif %}">
+                    <a href="{% url 'sites' %}">
                         <i class="tim-icons icon-atom"></i>
                         <p>Sites</p>
                     </a>
                 </li>
-                <li class="{% if 'map' in segment %} active {% endif %}">
-                    <a href="/map.html">
+                <li class="{% if 'applications' in segment %} active {% endif %}">
+                    <a href="{% url 'applications' %}">
                         <i class="tim-icons icon-app"></i>
                         <p>Applications</p>
                     </a>
                 </li>
-                <li class="{% if 'notifications' in segment %} active {% endif %}">
-                    <a href="/notifications.html">
+                <li class="{% if 'interfaces' in segment %} active {% endif %}">
+                    <a href="{% url 'interfaces' %}">
                         <i class="tim-icons icon-bullet-list-67"></i>
                         <p>Interfaces</p>
+                    </a>
+                </li>
+                <li class="{% if 'inburst' in segment %} active {% endif %}">
+                    <a href="{% url 'inburst' %}">
+                        <i class="tim-icons icon-bullet-list-67"></i>
+                        <p>Ingress Burst</p>
+                    </a>
+                </li>
+                <li class="{% if 'outburst' in segment %} active {% endif %}">
+                    <a href="{% url 'outburst' %}">
+                        <i class="tim-icons icon-bullet-list-67"></i>
+                        <p>Outgress Burst</p>
                     </a>
                 </li>
                 <li class="{% if 'user' in segment %} active {% endif %}">
@@ -43,26 +54,6 @@
                         <p>User Profile</p>
                     </a>
                 </li>
-                <!--
-                <li class="{% if 'tables' in segment %} active {% endif %}">
-                    <a href="/tables.html">
-                        <i class="tim-icons icon-puzzle-10"></i>
-                        <p>Table List</p>
-                    </a>
-                </li>
-                <li class="{% if 'typography' in segment %} active {% endif %}">
-                    <a href="/typography.html">
-                        <i class="tim-icons icon-align-center"></i>
-                        <p>Typography</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="/rtl.html">
-                        <i class="tim-icons icon-world"></i>
-                        <p>RTL Support</p>
-                    </a>
-                </li>
-                -->
                 <li>
                     <a href="{% url 'login' %}">
                         <i class="tim-icons icon-button-power"></i>

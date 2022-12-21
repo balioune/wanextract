@@ -1,0 +1,69 @@
+# TOP BURSTED INTERFACES AT A GIVEN TIME
+
+curl 'http://10.70.170.115/api/v1/perfdata?_dc=1671013523910&MetricSpace=uptimenpv&ViewBy=Interface&Metric=MaxBurst1&Metric=MaxBurst2&Metric=MaxBurst3&Metric=MaxBurst4&Metric=BurstRank&MaxRows=10&OrderBy=BurstRank&dir=DESC&period=LAST_30_DAYS&autoUpdate=false&startTime=1668427200000&endTime=1671019200000' \
+  -H 'Accept: */*' \
+  -H 'Accept-Language: en-US,en;q=0.9' \
+  -H 'Connection: keep-alive' \
+  -H 'Cookie: i18next=en-US; authToken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkb20iOjExLCJ1aWQiOjEsImdpZCI6MSwiZ3BtIjo2Mywic3NuIjoxLCJpYXQiOjE2NzEwMTM1MDgsImV4cCI6MTY3MTAxODkwOH0.EEEwvC1KLH261dHsKj09otkSYYuigChdf3yIVpp-YEw; ModuleMask=59; SID=%7B%22PortalPage.pageFilters%22%3A%22%7B%5C%22period%5C%22%3A%5C%22LAST_30_DAYS%5C%22%2C%5C%22autoUpdate%5C%22%3Afalse%2C%5C%22startTime%5C%22%3A1668427200000%2C%5C%22endTime%5C%22%3A1671019200000%7D%22%7D' \
+  -H 'Referer: http://10.70.170.115/?page=NetworkDashboard&period=LAST_30_DAYS&autoUpdate=false&startTime=1668427200000&endTime=1671019200000&PortIf=30801933%7CTunnel1&PortIfFields=2---10.0.253.110---RTRB2JNBKK---10.0.253.110%2F-14---0' \
+  -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36' \
+  -H 'X-Requested-With: XMLHttpRequest' \
+  -H 'tv-session-id: cdd4da06-76ed-4ff2-b36a-fc83e304ded9' \
+  --compressed \
+  --insecure
+
+
+
+# TOP APPLICATION AT A GIVEN TIME
+curl 'http://10.70.170.115/api/v1/perfdata?_dc=1671013523874&ViewBy=Application&Metric=TotalOctets&OrderBy=TotalOctets&dir=DESC&grid=true&wait=false&MaxRows=100&period=LAST_30_DAYS&autoUpdate=false&startTime=1668427200000&endTime=1671019200000' \
+  -H 'Accept: */*' \
+  -H 'Accept-Language: en-US,en;q=0.9' \
+  -H 'Connection: keep-alive' \
+  -H 'Cookie: i18next=en-US; authToken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkb20iOjExLCJ1aWQiOjEsImdpZCI6MSwiZ3BtIjo2Mywic3NuIjoxLCJpYXQiOjE2NzEwMTM1MDgsImV4cCI6MTY3MTAxODkwOH0.EEEwvC1KLH261dHsKj09otkSYYuigChdf3yIVpp-YEw; ModuleMask=59; SID=%7B%22PortalPage.pageFilters%22%3A%22%7B%5C%22period%5C%22%3A%5C%22LAST_30_DAYS%5C%22%2C%5C%22autoUpdate%5C%22%3Afalse%2C%5C%22startTime%5C%22%3A1668427200000%2C%5C%22endTime%5C%22%3A1671019200000%7D%22%7D' \
+  -H 'Referer: http://10.70.170.115/?page=NetworkDashboard&period=LAST_30_DAYS&autoUpdate=false&startTime=1668427200000&endTime=1671019200000&PortIf=30801933%7CTunnel1&PortIfFields=2---10.0.253.110---RTRB2JNBKK---10.0.253.110%2F-14---0' \
+  -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36' \
+  -H 'X-Requested-With: XMLHttpRequest' \
+  -H 'tv-session-id: cdd4da06-76ed-4ff2-b36a-fc83e304ded9' \
+  --compressed \
+  --insecure
+
+
+curl 'http://10.70.170.115/api/v1/perfdata?_dc=1671013523874&ViewBy=Application&Metric=TotalOctets&OrderBy=TotalOctets&dir=DESC&grid=true&wait=false&MaxRows=100&period=LAST_30_DAYS&autoUpdate=false&startTime=1668427200000&endTime=1671019200000' \
+  -H 'Accept: */*' \
+  -H 'Accept-Language: en-US,en;q=0.9' \
+  -H 'Connection: keep-alive' \
+  -H 'Cookie: i18next=en-US; authToken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkb20iOjExLCJ1aWQiOjEsImdpZCI6MSwiZ3BtIjo2Mywic3NuIjoxLCJpYXQiOjE2NzEwMTM1MDgsImV4cCI6MTY3MTAxODkwOH0.EEEwvC1KLH261dHsKj09otkSYYuigChdf3yIVpp-YEw; ModuleMask=59; SID=%7B%22PortalPage.pageFilters%22%3A%22%7B%5C%22period%5C%22%3A%5C%22LAST_30_DAYS%5C%22%2C%5C%22autoUpdate%5C%22%3Afalse%2C%5C%22startTime%5C%22%3A1668427200000%2C%5C%22endTime%5C%22%3A1671019200000%7D%22%7D' \
+  -H 'Referer: http://10.70.170.115/?page=NetworkDashboard&period=LAST_30_DAYS&autoUpdate=false&startTime=1668427200000&endTime=1671019200000&PortIf=30801933%7CTunnel1&PortIfFields=2---10.0.253.110---RTRB2JNBKK---10.0.253.110%2F-14---0' \
+  -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36' \
+  -H 'X-Requested-With: XMLHttpRequest' \
+  -H 'tv-session-id: cdd4da06-76ed-4ff2-b36a-fc83e304ded9' \
+  --compressed \
+  --insecure
+
+
+
+  curl 'http://10.70.170.115/api/v1/perfdata?_dc=1671013523874&ViewBy=Application&Metric=TotalOctets&OrderBy=TotalOctets&dir=DESC&grid=true&wait=false&MaxRows=100&period=LAST_30_DAYS&autoUpdate=false&startTime=1668427200000&endTime=1671019200000' \
+  -H 'Accept: */*' \
+  -H 'Accept-Language: en-US,en;q=0.9' \
+  -H 'Connection: keep-alive' \
+  -H 'Cookie: i18next=en-US; authToken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkb20iOjExLCJ1aWQiOjEsImdpZCI6MSwiZ3BtIjo2Mywic3NuIjoxLCJpYXQiOjE2NzEwMTM1MDgsImV4cCI6MTY3MTAxODkwOH0.EEEwvC1KLH261dHsKj09otkSYYuigChdf3yIVpp-YEw; ModuleMask=59; SID=%7B%22PortalPage.pageFilters%22%3A%22%7B%5C%22period%5C%22%3A%5C%22LAST_30_DAYS%5C%22%2C%5C%22autoUpdate%5C%22%3Afalse%2C%5C%22startTime%5C%22%3A1668427200000%2C%5C%22endTime%5C%22%3A1671019200000%7D%22%7D' \
+  -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36' \
+  -H 'X-Requested-With: XMLHttpRequest' \
+  -H 'tv-session-id: cdd4da06-76ed-4ff2-b36a-fc83e304ded9' \
+  --compressed \
+  --insecure
+
+
+  # TOTAL OCTET PER INTERFACE
+
+curl 'http://10.70.170.115/api/v1/perfdata?_dc=1671014264879&OrderBy=TotalOctets&dir=DESC&grid=true&wait=false&period=LAST_30_DAYS&autoUpdate=false&startTime=1668427200000&endTime=1671019200000&appId=78&ViewBy=Interface&Metric=TotalOctets&Metric=TxOctets&Metric=RxOctets&MaxRows=5' \
+  -H 'Accept: */*' \
+  -H 'Accept-Language: en-US,en;q=0.9' \
+  -H 'Connection: keep-alive' \
+  -H 'Cookie: i18next=en-US; authToken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkb20iOjExLCJ1aWQiOjEsImdpZCI6MSwiZ3BtIjo2Mywic3NuIjoxLCJpYXQiOjE2NzEwMTM1MDgsImV4cCI6MTY3MTAxODkwOH0.EEEwvC1KLH261dHsKj09otkSYYuigChdf3yIVpp-YEw; ModuleMask=59; SID=%7B%22PortalPage.pageFilters%22%3A%22%7B%5C%22period%5C%22%3A%5C%22LAST_30_DAYS%5C%22%2C%5C%22autoUpdate%5C%22%3Afalse%2C%5C%22startTime%5C%22%3A1668427200000%2C%5C%22endTime%5C%22%3A1671019200000%7D%22%7D' \
+  -H 'Referer: http://10.70.170.115/?page=NetworkDashboard&period=LAST_30_DAYS&autoUpdate=false&startTime=1668427200000&endTime=1671019200000&PortIf=30801933%7CTunnel1&PortIfFields=2---10.0.253.110---RTRB2JNBKK---10.0.253.110%2F-14---0' \
+  -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36' \
+  -H 'X-Requested-With: XMLHttpRequest' \
+  -H 'tv-session-id: cdd4da06-76ed-4ff2-b36a-fc83e304ded9' \
+  --compressed \
+  --insecure

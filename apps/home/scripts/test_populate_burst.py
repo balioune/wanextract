@@ -1,4 +1,3 @@
-from extract.models import *
 from __future__ import unicode_literals
 import requests
 from datetime import datetime
@@ -297,8 +296,8 @@ from time import time as timestamp
 import traceback
 
 local_timestamp = timestamp()
-local_timestamp = 1670440507
-for hour in range(1, 2):
+#local_timestamp = 1670440507
+for hour in range(1, 24*30):
     try:
         history_function_interfaces_applications(headers, local_timestamp)
     except Exception:

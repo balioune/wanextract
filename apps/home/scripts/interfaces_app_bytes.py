@@ -30,10 +30,6 @@ headers['Cookie'] = 'authToken=' + authToken
 headers['User-Agent'] = 'curl/7.29.0'
 headers['Accept'] = '*/*'
 
-"""
-"""
-
-
 def application_byte_per_interface_hourly(headers, AppId, start_time=None, end_time=None):
     # url = 'http://tlspbnflow02/api/v1/trafficanalysis?MetricSpace=uptimenpv&ViewBy=Time&ViewBy=Application&Metric=TotalThroughput&Metric=RxThroughput&Metric=TxThroughput&Metric=InCap&Metric=OutCap&grid=true&OrderBy=TotalThroughput&TopN=5&nfinterfaceId={}&PortIfType=2&DeviceIp={}&DeviceName={}CollectorId=0&period=CUSTOM_TIME&autoUpdate=false&startTime={}&endTime={}'.format(interfaceId, DeviceIp, DeviceName, start_time, end_time)
     url = 'http://tlspbnflow02/api/v1/perfdata?OrderBy=TotalOctets&dir=DESC&grid=true&wait=false&period=CUSTOM_TIME&autoUpdate=false&startTime={}&endTime={}&appId={}&ViewBy=Interface&Metric=TotalOctets&Metric=TxOctets&Metric=RxOctets'.format(
@@ -92,8 +88,7 @@ from time import time as timestamp
 import traceback
 
 local_timestamp = timestamp()
-local_timestamp = 1670440507
-local_timestamp = 1670436900
+#local_timestamp = 1670440507
 for hour in range(1, 2):
     try:
         applications_bytes_per_interfaces(headers, local_timestamp)

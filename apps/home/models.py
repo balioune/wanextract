@@ -57,6 +57,8 @@ class Interface(models.Model):
     class Meta:
         unique_together = ('truview_if_id', 'name')
 
+    def __str__(self):
+        return str(self.deviceName) + ' : ' + str(self.name)
     def save(self, **kwargs):
         pass
 
@@ -74,6 +76,7 @@ class ApplicationPerInterface(models.Model):
     interface = models.ForeignKey(Interface, verbose_name="Interface", on_delete=models.CASCADE, related_name="+")
     TxOctets = models.FloatField(default=0.0)
     RxOctets = models.FloatField(default=0.0)
+    TotalOctets = models.FloatField(default=0.0)
     app_name = models.CharField(max_length=20)
     router_name = models.CharField(max_length=20)
     if_name = models.CharField(max_length=20)
@@ -81,6 +84,8 @@ class ApplicationPerInterface(models.Model):
         # unique_together = ('timestamp', 'interface')
         pass
 
+    def get_interface_name(self):
+        return self.interface.name
 class InInterfaceBurst(models.Model):
     timestamp = models.DateTimeField()
     site_name = models.CharField(max_length=20)
@@ -94,6 +99,15 @@ class InInterfaceBurst(models.Model):
     Burst3 = models.IntegerField(default=0)
     Burst4 = models.IntegerField(default=0)
     applications = models.TextField()
+
+    def get_id(self):
+        return self.id
+
+    def get_interface_name(self):
+        return self.interface.name
+
+    def get_router_name(self):
+        return self.interface.deviceName
     class Meta:
         # unique_together = ('timestamp', 'interface')
         pass
@@ -111,6 +125,14 @@ class OutInterfaceBurst(models.Model):
     Burst3 = models.IntegerField(default=0)
     Burst4 = models.IntegerField(default=0)
     applications = models.TextField()
+
+    def get_id(self):
+        return self.id
+    def get_interface_name(self):
+        return self.interface.name
+
+    def get_router_name(self):
+        return self.interface.deviceName
     class Meta:
         #unique_together = ('timestamp', 'interface')
         pass
@@ -140,5 +162,5 @@ class AppInterfaceIn(models.Model):
     app = models.CharField(max_length=20, default='')
     rx_throuput = models.FloatField(default=0.0)
     class Meta:
-        #unique_together = ('timestamp', 'interface', 'app')
+        # unique_together = ('timestamp', 'interface', 'app')
         pass
