@@ -25,10 +25,17 @@ class Site(models.Model):
     )
 
     provider = models.CharField(max_length=20, choices=PROVIDER_TYPE, help_text='Provider', default='-----')
+
+    SERVICE_TYPE = (
+        ('-----', '-----'),
+        ('CARGO', 'CARGO'),
+        ('DELEGATION', 'DELEGATION'),
+    )
+
+    service = models.CharField(max_length=20, choices=PROVIDER_TYPE, help_text='Service', default='-----')
     class Meta:
         unique_together = ('zonegeo', 'site_name')
 
-"""
 class Router(models.Model):
     site = models.ForeignKey(Site, verbose_name="Site", on_delete=models.CASCADE, related_name="+")
     name = models.CharField(max_length=20)
@@ -39,7 +46,7 @@ class Router(models.Model):
     avg_congestion_out = models.FloatField(default=0.0)
     class Meta:
         unique_together = ('name',)
-"""
+
 
 class Interface(models.Model):
     site = models.ForeignKey(Site, verbose_name="Site", on_delete=models.CASCADE, related_name="+")
@@ -137,30 +144,19 @@ class OutInterfaceBurst(models.Model):
         #unique_together = ('timestamp', 'interface')
         pass
 
-class AppInterfaceOut(models.Model):
+class AppInterfaceThrouput(models.Model):
     timestamp = models.DateTimeField()
     date = models.DateField()
     time = models.TimeField()
-    interface = models.ForeignKey(Interface, verbose_name="Interface", on_delete=models.CASCADE, related_name="+")
-    #app = models.ForeignKey(Application, verbose_name="Application", on_delete=models.CASCADE, related_name="+", null=True, blank = True)
+    interface = models.ForeignKey(Interface, verbose_name="Interface", on_delete=models.CASCADE, related_name="interface")
+    inburst = models.ForeignKey(InInterfaceBurst, verbose_name="InInterfaceBurst", on_delete=models.CASCADE, related_name="inburst", blank=True, null=True)
+    outburst = models.ForeignKey(OutInterfaceBurst, verbose_name="OutInterfaceBurst", on_delete=models.CASCADE, related_name="outburst", blank=True, null=True)
     if_name = models.CharField(max_length=50, default='')
     router_name = models.CharField(max_length=50)
     app = models.CharField(max_length=20)
     tx_throuput = models.FloatField(default=0.0)
+    rx_throuput = models.FloatField(default=0.0)
+    total_throuput = models.FloatField(default=0.0)
     class Meta:
         #unique_together = ('timestamp', 'interface', 'app')
-        pass
-
-class AppInterfaceIn(models.Model):
-    timestamp = models.DateTimeField()
-    date = models.DateField()
-    time = models.TimeField()
-    interface = models.ForeignKey(Interface, verbose_name="Interface", on_delete=models.CASCADE, related_name="+")
-    #app = models.ForeignKey(Application, verbose_name="Application", on_delete=models.CASCADE, related_name="+", null=True, blank = True)
-    if_name = models.CharField(max_length=50)
-    router_name = models.CharField(max_length=50)
-    app = models.CharField(max_length=20, default='')
-    rx_throuput = models.FloatField(default=0.0)
-    class Meta:
-        # unique_together = ('timestamp', 'interface', 'app')
         pass
