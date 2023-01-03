@@ -32,7 +32,7 @@ class Site(models.Model):
         ('DELEGATION', 'DELEGATION'),
     )
 
-    service = models.CharField(max_length=20, choices=PROVIDER_TYPE, help_text='Service', default='-----')
+    service = models.CharField(max_length=20, choices=SERVICE_TYPE, help_text='Service', default='-----')
     class Meta:
         unique_together = ('zonegeo', 'site_name')
 

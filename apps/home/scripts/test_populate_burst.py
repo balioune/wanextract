@@ -105,35 +105,6 @@ def history_function_interfaces_burst(headers, var_timestamp):
                                                           interface.deviceName, str(START) + '000', str(END) + '000')
         apps_throughput = json.loads(apps_throughput)
         apps_dict = dict()
-        for record in apps_throughput['records']:
-            if record['Application'] is None:
-                if 'UNKNOWN' in apps_dict.keys():
-                    if record['TxThroughput'] is not None: apps_dict['UNKNOWN']['TxThroughput'] = apps_dict['UNKNOWN'][
-                                                                                                      'TxThroughput'] + \
-                                                                                                  record['TxThroughput']
-                    if record['RxThroughput'] is not None: apps_dict['UNKNOWN']['RxThroughput'] = apps_dict['UNKNOWN'][
-                                                                                                      'RxThroughput'] + \
-                                                                                                  record['RxThroughput']
-                    if record['TotalThroughput'] is not None: apps_dict['UNKNOWN']['TotalThroughput'] = \
-                    apps_dict['UNKNOWN']['TotalThroughput'] + record['TotalThroughput']
-                else:
-                    apps_dict['UNKNOWN'] = {'TxThroughput': record['TxThroughput'],
-                                            'RxThroughput': record['RxThroughput'],
-                                            'TotalThroughput': record['TotalThroughput']}
-            else:
-                if record['Application']['name'] in apps_dict.keys():
-                    if record['TxThroughput'] is not None: apps_dict[record['Application']['name']]['TxThroughput'] = \
-                    apps_dict[record['Application']['name']]['TxThroughput'] + record['TxThroughput']
-                    if record['RxThroughput'] is not None: apps_dict[record['Application']['name']]['RxThroughput'] = \
-                    apps_dict[record['Application']['name']]['RxThroughput'] + record['RxThroughput']
-                    if record['TotalThroughput'] is not None: apps_dict[record['Application']['name']][
-                        'TotalThroughput'] = apps_dict[record['Application']['name']]['TotalThroughput'] + record[
-                        'TotalThroughput']
-                else:
-                    apps_dict[record['Application']['name']] = dict()
-                    apps_dict[record['Application']['name']]['TxThroughput'] = record['TxThroughput']
-                    apps_dict[record['Application']['name']]['RxThroughput'] = record['RxThroughput']
-                    apps_dict[record['Application']['name']]['TotalThroughput'] = record['TotalThroughput']
         if "records" in response.keys():
             for app in response['records']:
                 OutBurst1 = 0.0
@@ -180,7 +151,42 @@ def history_function_interfaces_burst(headers, var_timestamp):
                                           Burst4=Burst4)
                     i1.applications = str(apps_dict)
                     i1.save()
+        for record in apps_throughput['records']:
+            if record['Application'] is None:
+                if 'UNKNOWN' in apps_dict.keys():
+                    if record['TxThroughput'] is not None: apps_dict['UNKNOWN']['TxThroughput'] = apps_dict['UNKNOWN'][
+                                                                                                      'TxThroughput'] + \
+                                                                                                  record['TxThroughput']
+                    if record['RxThroughput'] is not None: apps_dict['UNKNOWN']['RxThroughput'] = apps_dict['UNKNOWN'][
+                                                                                                      'RxThroughput'] + \
+                                                                                                  record['RxThroughput']
+                    if record['TotalThroughput'] is not None: apps_dict['UNKNOWN']['TotalThroughput'] = \
+                    apps_dict['UNKNOWN']['TotalThroughput'] + record['TotalThroughput']
+                else:
+                    apps_dict['UNKNOWN'] = {'TxThroughput': record['TxThroughput'],
+                                            'RxThroughput': record['RxThroughput'],
+                                            'TotalThroughput': record['TotalThroughput']}
+            else:
+                if record['Application']['name'] in apps_dict.keys():
+                    if record['TxThroughput'] is not None: apps_dict[record['Application']['name']]['TxThroughput'] = \
+                    apps_dict[record['Application']['name']]['TxThroughput'] + record['TxThroughput']
+                    if record['RxThroughput'] is not None: apps_dict[record['Application']['name']]['RxThroughput'] = \
+                    apps_dict[record['Application']['name']]['RxThroughput'] + record['RxThroughput']
+                    if record['TotalThroughput'] is not None: apps_dict[record['Application']['name']][
+                        'TotalThroughput'] = apps_dict[record['Application']['name']]['TotalThroughput'] + record[
+                        'TotalThroughput']
+                else:
+                    apps_dict[record['Application']['name']] = dict()
+                    apps_dict[record['Application']['name']]['TxThroughput'] = record['TxThroughput']
+                    apps_dict[record['Application']['name']]['RxThroughput'] = record['RxThroughput']
+                    apps_dict[record['Application']['name']]['TotalThroughput'] = record['TotalThroughput']
 
+        for key in apps_dict.keys():
+            AppInterfaceThrouput(timestamp=timestamp, date=date_en, time=time_en, interface=interface,
+                                 inburst=i1, outburst=o1, if_name=interface.truview_if_id,
+                                 router_name=interface.deviceName, app=key,
+                                 tx_throuput=apps_dict[key]['TxThroughput'], rx_throuput=apps_dict[key]['RxThroughput'],
+                                 total_throuput=apps_dict[key]['TotalThroughput'])
 
 from datetime import datetime
 from time import time as timestamp
@@ -315,4 +321,5 @@ for hour in range(1, 24*30):
                     cnt += 1
             headers['Cookie'] = 'authToken=' + authToken
             print(traceback.format_exc())
+        history_function_interfaces_applications(headers, local_timestamp)
     local_timestamp = local_timestamp - 3600

@@ -45,7 +45,7 @@ with open(filepath) as fp:
             authToken = line.split('\t')[6].split('\n')[0]
             print("authToken: ", authToken)
         line = fp.readline()
-        cnt +=  # Authentication
+        cnt += cnt # Authentication
 # Variables
 jsondata = list()
 
