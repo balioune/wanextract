@@ -66,8 +66,7 @@ class Interface(models.Model):
 
     def __str__(self):
         return str(self.deviceName) + ' : ' + str(self.name)
-    def save(self, **kwargs):
-        pass
+    
 
 class Application(models.Model):
     truview_app_id = models.IntegerField()

@@ -27,7 +27,7 @@ DEBUG = env('DEBUG')
 ASSETS_ROOT = os.getenv('ASSETS_ROOT', '/static/assets') 
 
 # load production server from .env
-ALLOWED_HOSTS        = ['localhost', 'localhost:85', '127.0.0.1',               env('SERVER', default='127.0.0.1') ]
+ALLOWED_HOSTS        = ['tlspbnflow02', 'localhost', 'localhost:85', '127.0.0.1',               env('SERVER', default='127.0.0.1') ]
 CSRF_TRUSTED_ORIGINS = ['http://localhost:85', 'http://127.0.0.1', 'https://' + env('SERVER', default='127.0.0.1') ]
 
 # Application definition
@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.home',  # Enable the inner home (home)
     'django_tables2',
-    'django_filters'
+    'django_filters',
+    'django_crontab'
 ]
 
 MIDDLEWARE = [
@@ -148,3 +149,14 @@ STATICFILES_DIRS = (
 
 #############################################################
 #############################################################
+
+##
+# CRON JOBS
+##
+
+CRONJOBS = [
+    #('*/1 * * * *', 'apps.home.cron_jobs.get_intranet_sites', '>> '  + os.path.join(BASE_DIR,'log/debug7.log' + ' 2>&1 '))
+    ('*/1 * * * *', 'apps.home.cron_sites.get_intranet_sites', '>> '  + '/var/log/wanextract/intranet_sites.log' + ' 2>&1 ')
+
+]
+
