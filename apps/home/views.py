@@ -10,16 +10,37 @@ from django.template import loader
 from django.urls import reverse
 from apps.home.tables import *
 from apps.home.filters import *
+from apps.home.forms import TimestampForm
 from django.utils.timezone import datetime as django_datetime
+import time
 import datetime
-
 @login_required(login_url="/login/")
 def index(request):
     context = {'segment': 'index'}
 
     html_template = loader.get_template('home/index.html')
     return HttpResponse(html_template.render(context, request))
+@login_required(login_url="/login/")
+def reports(request):
 
+    if request.method == 'POST':
+        # Create a form instance and populate it with data from the request (binding):
+        form = TimestampForm(request.POST)
+        if form.is_valid():
+            print("FORM")
+            print(form.cleaned_data['date_from'])
+            timestamp1 = time.mktime(datetime.datetime.strptime(str(request.POST['date_from']), "%Y/%m/%d %H:%M").timetuple())
+            print(timestamp1)
+            print(form.cleaned_data['date_to'])
+            timestamp2 = time.mktime(datetime.datetime.strptime(str(request.POST['date_to']), "%Y/%m/%d %H:%M").timetuple())
+            print(timestamp2)
+
+    context = {'segment': 'reports'}
+    table = SiteTable(Site.objects.all())
+    context['table'] = table
+    context['form'] = TimestampForm(request.POST)
+    html_template = loader.get_template('home/reports.html')
+    return HttpResponse(html_template.render(context, request))
 
 @login_required(login_url="/login/")
 def sites(request):
@@ -81,6 +102,22 @@ def outburst(request):
 
 @login_required(login_url="/login/")
 def inburst(request):
+    from apps.home.forms import TimestampForm
+    print(request.POST)
+    context = {'segment': 'inburst'}
+    html_template = loader.get_template('home/inburst.html')
+    filter = InInterfaceBurstFilter(request.GET,
+                                    queryset=InInterfaceBurst.objects.filter(date=django_datetime.today() - datetime.timedelta(days=2)))
+    context['filter'] = filter
+    context['form'] = TimestampForm(request.POST)
+    print(filter.qs)
+    context['table'] = InInterfaceBurstTable(filter.qs)
+
+    return HttpResponse(html_template.render(context, request))
+
+
+@login_required(login_url="/login/")
+def monthly_extract(request):
     from apps.home.forms import TimestampForm
     print(request.POST)
     context = {'segment': 'inburst'}

@@ -18,6 +18,12 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
+                <li class="{% if 'reports' in segment %} active {% endif %} ">
+                    <a href="{% url 'reports' %}">
+                        <i class="tim-icons icon-chart-pie-36"></i>
+                        <p>Reports</p>
+                    </a>
+                </li>
                 <li class="{% if 'sites' in segment %} active {% endif %}">
                     <a href="{% url 'sites' %}">
                         <i class="tim-icons icon-atom"></i>

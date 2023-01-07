@@ -13,6 +13,7 @@ urlpatterns = [
     # Matches any html file
     # re_path(r'^.*\.*', views.pages, name='pages'),
     path('wan/sites', views.sites, name='sites'),
+    path('wan/reports', views.reports, name='reports'),
     path('wan/interfaces', views.interfaces, name='interfaces'),
     path('wan/applications', views.applications, name='applications'),
     path('wan/outburst', views.outburst, name='outburst'),

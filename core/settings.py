@@ -40,9 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.home',  # Enable the inner home (home)
+    'cron',
     'django_tables2',
     'django_filters',
-    'django_crontab'
+    'django_crontab',
+    'django_cron',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
@@ -82,7 +85,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
+"""
 if os.environ.get('DB_ENGINE') and os.environ.get('DB_ENGINE') == "mysql":
     DATABASES = { 
       'default': {
@@ -101,7 +104,21 @@ else:
             'NAME': 'db.sqlite3',
         }
     }
-
+"""
+"""
+DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'db.sqlite3',
+        }
+    }
+"""
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -151,12 +168,20 @@ STATICFILES_DIRS = (
 #############################################################
 
 ##
-# CRON JOBS
+# OLD CRON JOBS
 ##
 
 CRONJOBS = [
-    #('*/1 * * * *', 'apps.home.cron_jobs.get_intranet_sites', '>> '  + os.path.join(BASE_DIR,'log/debug7.log' + ' 2>&1 '))
-    ('*/1 * * * *', 'apps.home.cron_sites.get_intranet_sites', '>> '  + '/var/log/wanextract/intranet_sites.log' + ' 2>&1 ')
+    #('*/1 * * * *', 'apps.home.cron.extract_monthly_data', '>> '  + os.path.join(BASE_DIR,'log/extract_monthly_data.log' + ' 2>&1 '))
+    ('*/1 * * * *', 'apps.home.cron.extract_monthly_data', ' >> '  + ' /var/log/wanextract/extract_monthly_data.log ' + ' 2>&1 ')
+    #('*/1 * * * *', 'apps.home.cron_sites.get_intranet_sites', '>> '  + '/var/log/wanextract/intranet_sites.log' + ' 2>&1 ')
 
 ]
 
+##
+## NEW CRON
+##
+CRON_CLASSES = [
+    "apps.home.my_cron_job.MyCronJob",
+    # ...
+]

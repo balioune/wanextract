@@ -104,7 +104,8 @@ class InInterfaceBurst(models.Model):
     InBurst4 = models.FloatField(default=0.0)
     Burst3 = models.IntegerField(default=0)
     Burst4 = models.IntegerField(default=0)
-    applications = models.TextField()
+    #applications = models.TextField()
+    applications = models.JSONField(default='')
 
     def get_id(self):
         return self.id
@@ -130,8 +131,8 @@ class OutInterfaceBurst(models.Model):
     OutBurst4 = models.FloatField(default=0.0)
     Burst3 = models.IntegerField(default=0)
     Burst4 = models.IntegerField(default=0)
-    applications = models.TextField()
-
+    #applications = models.TextField()
+    applications = models.JSONField(default='')
     def get_id(self):
         return self.id
     def get_interface_name(self):

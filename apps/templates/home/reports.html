@@ -1,0 +1,110 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Icons {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% load render_table from django_tables2 %}
+
+{% block javascripts %}
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+  <!-- XDSoft DateTimePicker -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+  <script>
+    $(function () {
+      $("#datetimepicker1").datetimepicker();
+    });
+  </script>
+  <script>
+    $(function () {
+      $("#datetimepicker2").datetimepicker();
+    });
+  </script>
+{% endblock javascripts %}
+{% block content %}
+  <div class="content">
+    <div class="row">
+
+      <div class="col-md-12">
+          <!--
+          <form method="get">
+            <div class="well">
+              <h4 style="margin-top: 0">Filter</h4>
+              <div class="row">
+                <div class="form-group col-sm-4 col-md-3">
+                </div>
+                <div class="form-group col-sm-4 col-md-3">
+
+                </div>
+                <div class="form-group col-sm-4 col-md-3">
+                </div>
+                <div class="form-group col-sm-4 col-md-3">
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-search"></span> Search
+              </button>
+            </div>
+          </form>
+          -->
+        <form method="post">
+            {% csrf_token %}
+            <div class="well">
+                <input type="search" name="daterange" id="search" placeholder="Filter using date range" value="{{ request.GET.daterange }}" class="appearance-none w-full outline-none focus:outline-none active:outline-none" />
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-search"></span> Search
+                </button>
+            </div>
+            {% if form.daterange.errors %}
+            {% for error in form.daterange.errors %}
+            <p class="text-red-600 text-sm italic">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+        </form>
+          <!--
+          <form method="post">
+            {% csrf_token %}
+            <div class="well">
+                  <input id="datetimepicker1" type="text" name="date_from" placeholder="From">
+                  <input id="datetimepicker2" type="text" name="date_to" placeholder="To">
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-search"></span> Search 2
+                </button>
+            </div>
+          </form>
+          -->
+          <form method="post">
+            {% csrf_token %}
+            <div class="well">
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-search"></span> Search 3
+                </button>
+            </div>
+          </form>
+      </div>
+
+      <div class="col-md-12">
+        <div class="card ">
+          <div class="card-header">
+            <h4 class="card-title"> WAN In Burst Interfaces</h4>
+          </div>
+          <div class="table-responsive">
+              <table class="table tablesorter " id="">
+                {% render_table table %}
+              </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+
+
