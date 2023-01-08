@@ -11,6 +11,8 @@ from django.urls import reverse
 from apps.home.tables import *
 from apps.home.filters import *
 from apps.home.forms import TimestampForm
+from apps.home.excel_extract_burst import extract_input
+
 from django.utils.timezone import datetime as django_datetime
 import time
 import datetime
@@ -27,14 +29,16 @@ def reports(request):
         # Create a form instance and populate it with data from the request (binding):
         form = TimestampForm(request.POST)
         if form.is_valid():
-            print("FORM")
-            print(form.cleaned_data['date_from'])
+            # "%d/%m/%Y %H:%M:%S"
+            print(form.cleaned_data['date_from'], type(form.cleaned_data['date_from']))
             timestamp1 = time.mktime(datetime.datetime.strptime(str(request.POST['date_from']), "%Y/%m/%d %H:%M").timetuple())
-            print(timestamp1)
-            print(form.cleaned_data['date_to'])
-            timestamp2 = time.mktime(datetime.datetime.strptime(str(request.POST['date_to']), "%Y/%m/%d %H:%M").timetuple())
-            print(timestamp2)
+            print(timestamp1, type(timestamp1), datetime.datetime.fromtimestamp(timestamp1))
 
+            print(form.cleaned_data['date_to'], type(form.cleaned_data['date_to']))
+            timestamp2 = time.mktime(datetime.datetime.strptime(str(request.POST['date_to']), "%Y/%m/%d %H:%M").timetuple())
+            print(timestamp2, type(timestamp2), datetime.datetime.fromtimestamp(timestamp2))
+
+            return extract_input(datetime.datetime.fromtimestamp(timestamp1), datetime.datetime.fromtimestamp(timestamp2))
     context = {'segment': 'reports'}
     table = SiteTable(Site.objects.all())
     context['table'] = table
