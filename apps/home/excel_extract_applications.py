@@ -1,9 +1,32 @@
 import json
+import requests
 from django.db.models import Q
 from django.http import HttpResponse
 from apps.home.models import *
 import xlwt
 from xlwt import *
+import datetime
+
+# Get token
+authToken = ''
+import subprocess
+import traceback
+headers = dict()
+
+subprocess.call('/home/TVadmin/django_code/wanextract/auth.sh', shell=True)
+filepath = '/home/TVadmin/django_code/wanextract/tvc-client.cookie'
+with open(filepath) as fp:
+    line = fp.readline()
+    cnt = 1
+    while line:
+        if len(line.split('\t')) > 1:
+            authToken = line.split('\t')[6].split('\n')[0]
+            print("authToken: ", authToken)
+        line = fp.readline()
+        cnt += 1
+headers['Cookie'] = 'authToken=' + authToken
+headers['User-Agent'] = 'curl/7.29.0'
+headers['Accept'] = '*/*'
 
 # Excel Conf
 COL_WIDTH = 150 * 50
@@ -39,7 +62,7 @@ style.borders = borders
 style.alignment = alignment
 
 
-def extract_total_octets_per_site(datetime_from, datetime_to):
+def extract_total_octets_per_site(timestamp_from, timestamp_to):
     response = HttpResponse(content_type='application/ms-excel')
     filename = "TotalOctectperSite.xls"
     response['Content-Disposition'] = 'attachment; ' + 'filename=' + filename
@@ -53,13 +76,21 @@ def extract_total_octets_per_site(datetime_from, datetime_to):
         ws.write(0, col_num, columns[col_num], style)
         ws.col(col_num).width = COL_WIDTH
 
-    ws.write_merge(1, 1, 0, 7, 'Extract Total Octets per Site from {} to {}'.format(str(datetime_from), str(datetime_to)), style)
+    ws.write_merge(1, 1, 0, 7, 'Extract Total Octets per Site from {} to {}'.format(str(datetime.datetime.fromtimestamp(timestamp_from)), str(datetime.datetime.fromtimestamp(timestamp_to))), style)
+
+    url = 'http://tlspbnflow02/api/v1/perfdata?ViewBy=Site&Metric=RxOctets&Metric=TxOctets&Metric=TotalOctets&OrderBy=TotalOctets&dir=DESC&grid=true&wait=false&MaxRows=30&period=CUSTOM_TIME&autoUpdate=false&startTime={}&endTime={}'.format(timestamp_from, timestamp_to)
+    response = requests.get(url, headers=headers, verify=False)
+    response = json.loads(response.text)
 
     row_num = 2
-    for site in []:
-        ws.write(row_num, 0, str(site), center_style)
-        ws.write(row_num, 1, '', center_style)
-        row_num += 1
+    if "records" in response.keys():
+        for site in response['records']:
+            ws.write(row_num, 0, str(site), center_style)
+            ws.write(row_num, 1, '', center_style)
+            ws.write(row_num, 2, '', center_style)
+            ws.write(row_num, 4, '', center_style)
+            ws.write(row_num, 5, '', center_style)
+            row_num += 1
 
     wb.save(response)
     return response

@@ -12,6 +12,7 @@ from apps.home.tables import *
 from apps.home.filters import *
 from apps.home.forms import TimestampForm, AppReportForm
 from apps.home.excel_extract_burst import extract_input, extract_output
+from apps.home.excel_extract_applications import extract_total_octets_per_site
 
 from django.utils.timezone import datetime as django_datetime
 import time
@@ -33,11 +34,7 @@ def reports(request):
             timestamp1 = time.mktime(datetime.datetime.strptime(str(request.POST['date_from']), "%Y/%m/%d %H:%M").timetuple())
             timestamp2 = time.mktime(datetime.datetime.strptime(str(request.POST['date_to']), "%Y/%m/%d %H:%M").timetuple())
             if form.cleaned_data['report_type'] == 'inburst':
-                return extract_input(datetime.datetime.fromtimestamp(timestamp1), datetime.datetime.fromtimestamp(timestamp2))
-            elif form.cleaned_data['report_type'] == 'outburst':
-                return extract_output(datetime.datetime.fromtimestamp(timestamp1), datetime.datetime.fromtimestamp(timestamp2))
-            elif form.cleaned_data['report_type'] == 'applications':
-                pass
+                return extract_total_octets_per_site(timestamp1, timestamp2)
 
     context = {'segment': 'reports'}
     table = SiteTable(Site.objects.all())
@@ -70,11 +67,19 @@ def applications(request):
     today = django_datetime.now().date()
     context = {'segment': 'applications'}
 
-    if len(request.GET) >0 and request.GET['interface']!='':
-        filter = ApplicationPerInterfaceFilter(request.GET, queryset=ApplicationPerInterface.objects.filter(interface=int(request.GET['interface'])))
-    else:
-        filter = ApplicationPerInterfaceFilter(request.GET, queryset=ApplicationPerInterface.objects.filter(
-            date=django_datetime.today()- datetime.timedelta(days=2)))
+    if request.method == 'POST':
+        # Create a form instance and populate it with data from the request (binding):
+        form = AppReportForm(request.POST)
+        if form.is_valid():
+            # "%d/%m/%Y %H:%M:%S"
+            timestamp1 = time.mktime(datetime.datetime.strptime(str(request.POST['date_from']), "%Y/%m/%d %H:%M").timetuple())
+            timestamp2 = time.mktime(datetime.datetime.strptime(str(request.POST['date_to']), "%Y/%m/%d %H:%M").timetuple())
+            if form.cleaned_data['report_type'] == 'octets':
+                return extract_input(datetime.datetime.fromtimestamp(timestamp1), datetime.datetime.fromtimestamp(timestamp2))
+            elif form.cleaned_data['report_type'] == 'outburst':
+                return extract_output(datetime.datetime.fromtimestamp(timestamp1), datetime.datetime.fromtimestamp(timestamp2))
+            elif form.cleaned_data['report_type'] == 'applications':
+                pass
 
     context['filter'] = filter
     context['form'] = AppReportForm(request.POST)

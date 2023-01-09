@@ -29,7 +29,7 @@ class TimestampForm(forms.Form):
     report_type = forms.ChoiceField(choices=REPORT_TYPE)
 
 APP_REPORT_TYPE = (
-          ('inburst', 'Total Octets per Site'),
+          ('octets', 'Total Octets per Site'),
           ('outburst', 'Top 30 Apps'),
           ('applications', 'Top Interfaces per App'),
     )
