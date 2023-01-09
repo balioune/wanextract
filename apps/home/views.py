@@ -34,7 +34,11 @@ def reports(request):
             timestamp1 = time.mktime(datetime.datetime.strptime(str(request.POST['date_from']), "%Y/%m/%d %H:%M").timetuple())
             timestamp2 = time.mktime(datetime.datetime.strptime(str(request.POST['date_to']), "%Y/%m/%d %H:%M").timetuple())
             if form.cleaned_data['report_type'] == 'inburst':
-                return extract_total_octets_per_site(timestamp1, timestamp2)
+                return extract_input(datetime.datetime.fromtimestamp(timestamp1), datetime.datetime.fromtimestamp(timestamp2))
+            elif form.cleaned_data['report_type'] == 'outburst':
+                return extract_output(datetime.datetime.fromtimestamp(timestamp1), datetime.datetime.fromtimestamp(timestamp2))
+            elif form.cleaned_data['report_type'] == 'applications':
+                pass
 
     context = {'segment': 'reports'}
     table = SiteTable(Site.objects.all())
@@ -75,11 +79,8 @@ def applications(request):
             timestamp1 = time.mktime(datetime.datetime.strptime(str(request.POST['date_from']), "%Y/%m/%d %H:%M").timetuple())
             timestamp2 = time.mktime(datetime.datetime.strptime(str(request.POST['date_to']), "%Y/%m/%d %H:%M").timetuple())
             if form.cleaned_data['report_type'] == 'octets':
-                return extract_input(datetime.datetime.fromtimestamp(timestamp1), datetime.datetime.fromtimestamp(timestamp2))
-            elif form.cleaned_data['report_type'] == 'outburst':
-                return extract_output(datetime.datetime.fromtimestamp(timestamp1), datetime.datetime.fromtimestamp(timestamp2))
-            elif form.cleaned_data['report_type'] == 'applications':
-                pass
+                return extract_input(timestamp1, timestamp2)
+
 
     context['filter'] = filter
     context['form'] = AppReportForm(request.POST)
