@@ -10,8 +10,8 @@ from django.template import loader
 from django.urls import reverse
 from apps.home.tables import *
 from apps.home.filters import *
-from apps.home.forms import TimestampForm
-from apps.home.excel_extract_burst import extract_input
+from apps.home.forms import TimestampForm, AppReportForm
+from apps.home.excel_extract_burst import extract_input, extract_output
 
 from django.utils.timezone import datetime as django_datetime
 import time
@@ -30,15 +30,15 @@ def reports(request):
         form = TimestampForm(request.POST)
         if form.is_valid():
             # "%d/%m/%Y %H:%M:%S"
-            print(form.cleaned_data['date_from'], type(form.cleaned_data['date_from']))
             timestamp1 = time.mktime(datetime.datetime.strptime(str(request.POST['date_from']), "%Y/%m/%d %H:%M").timetuple())
-            print(timestamp1, type(timestamp1), datetime.datetime.fromtimestamp(timestamp1))
-
-            print(form.cleaned_data['date_to'], type(form.cleaned_data['date_to']))
             timestamp2 = time.mktime(datetime.datetime.strptime(str(request.POST['date_to']), "%Y/%m/%d %H:%M").timetuple())
-            print(timestamp2, type(timestamp2), datetime.datetime.fromtimestamp(timestamp2))
+            if form.cleaned_data['report_type'] == 'inburst':
+                return extract_input(datetime.datetime.fromtimestamp(timestamp1), datetime.datetime.fromtimestamp(timestamp2))
+            elif form.cleaned_data['report_type'] == 'outburst':
+                return extract_output(datetime.datetime.fromtimestamp(timestamp1), datetime.datetime.fromtimestamp(timestamp2))
+            elif form.cleaned_data['report_type'] == 'applications':
+                pass
 
-            return extract_input(datetime.datetime.fromtimestamp(timestamp1), datetime.datetime.fromtimestamp(timestamp2))
     context = {'segment': 'reports'}
     table = SiteTable(Site.objects.all())
     context['table'] = table
@@ -69,15 +69,6 @@ def applications(request):
     print(request.GET, type(request.GET))
     today = django_datetime.now().date()
     context = {'segment': 'applications'}
-    # table = ApplicationPerInterfaceTable(ApplicationPerInterface.objects.all().order_by('-id')[:10])
-    # table = ApplicationPerInterfaceTable(ApplicationPerInterface.objects.all().order_by('-id')[:10])
-    #table = ApplicationPerInterfaceTable(ApplicationPerInterface.objects.filter(date__lt=datetime.today()).order_by('-id')[:10])
-    # table = ApplicationPerInterfaceTable(ApplicationPerInterface.objects.filter(date=django_datetime.today()- datetime.timedelta(days=2)).order_by('id')[:1000])
-    # RequestConfig(request, paginate={"per_page": PAGINATION_SIZE}).configure(table)atetime.today()
-    # context['table'] = table
-
-    # filter = ApplicationPerInterfaceFilter(request.GET, queryset=ApplicationPerInterface.objects.filter(date=django_datetime.today()).order_by('id')[:1000])
-    # filter = ApplicationPerInterfaceFilter(request.GET, queryset=ApplicationPerInterface.objects.all()[:100])
 
     if len(request.GET) >0 and request.GET['interface']!='':
         filter = ApplicationPerInterfaceFilter(request.GET, queryset=ApplicationPerInterface.objects.filter(interface=int(request.GET['interface'])))
@@ -86,6 +77,7 @@ def applications(request):
             date=django_datetime.today()- datetime.timedelta(days=2)))
 
     context['filter'] = filter
+    context['form'] = AppReportForm(request.POST)
     context['table'] = ApplicationPerInterfaceTable(filter.qs)
     html_template = loader.get_template('home/applications.html')
     return HttpResponse(html_template.render(context, request))

@@ -1,69 +1,61 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} UI Icons {% endblock %} 
+{% block title %} UI Icons {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% load render_table from django_tables2 %}
 
+{% block javascripts %}
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+  <!-- XDSoft DateTimePicker -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+  <script>
+    $(function () {
+      $("#datetimepicker1").datetimepicker();
+    });
+  </script>
+  <script>
+    $(function () {
+      $("#datetimepicker2").datetimepicker();
+    });
+  </script>
+{% endblock javascripts %}
 {% block content %}
   <div class="content">
     <div class="row">
+
+      <div class="col-md-12">
+
+      </div>
+
       <div class="col-md-12">
         <div class="card ">
           <div class="card-header">
-            <h4 class="card-title"> WAN Applications</h4>
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-            <form method="get">
-              {{ filter.form.as_p }}
-              <button type="submit">Search</button>
-            </form>
-            <ul>
-
-              <!--
-              {% render_table table %}
-            {% for inburst in filter.qs %}
-              <li>{{ inburst.date }} - {{ inburst.inburst }} - {{ inburst.interface.name }} - {{ inburst.interface.deviceName }}</li>
-            {% endfor %}
-            -->
-            </ul>
-            </div>
+            <h4 class="card-title"> Extract WAN Applications Reports</h4>
           </div>
           <div class="table-responsive">
-              <table class="table tablesorter " id="">
-                {% render_table table %}
-              </table>
+              <form method="post">
+                  {% csrf_token %}
+                  <div class="well">
+                      {{ form.as_p }}
+                      <button type="submit" class="btn btn-primary">
+                          <span class="glyphicon glyphicon-search"></span> Extract
+                      </button>
+                  </div>
+              </form>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  <!--
-  <div class="content">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card ">
-          <div class="card-header">
-            <h4 class="card-title"> WAN Applications</h4>
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table tablesorter " id="">
-                {% render_table table %}
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  -->
 
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
+
+
